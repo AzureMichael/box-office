@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import { apiGet } from '../../api/tv-maze-api';
+import ActorGrid from '../entities/actor/ActorGrid';
+import ShowGrid from '../entities/show/ShowGrid';
 import MainPageLayout from '../layouts/MainPageLayout';
 
 const Home = () => {
@@ -31,15 +33,8 @@ const Home = () => {
         }
 
         if(results && results.length > 0){
-            return results[0].show ? results.map(item => (
-                <div key={item.show.id}>
-                    {item.show.name}
-                </div>
-            )) : results.map(item =>(
-                <div key={item.person.id}>
-                    {item.person.name}
-                </div>
-            ));
+            return  results[0].show ? (<ShowGrid data={results}/>) : (<ActorGrid data={results}/>);
+            // return <ShowGrid data={results}/>
         }
 
     }

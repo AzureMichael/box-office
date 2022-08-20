@@ -8,8 +8,10 @@ function App() {
   return (
     <Routes>
       <Route exact path='/' element={<Home/>}/>
-      <Route path='/starred' element={<Starred/>}/>
-      <Route element={<NotFoundRoute/>}/>
+      <Route exact path='/starred' element={<Starred/>}/>
+
+      <Route  element={<NotFoundRoute/>}/>
+
     </Routes>
   );
 }
