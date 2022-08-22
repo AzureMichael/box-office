@@ -5,8 +5,6 @@ import { StyledShowCard } from '../../../styled-components/StyledShowCard';
 
 const ShowCard = ({id, image, name, summary}) => {
 
-    console.log(id);
-
     const summaryAsText = summary 
         ? `${summary.split(' ').slice(0, 10).join(' ').replace(/<.+?>/g, '')}...`
         : 'No description';

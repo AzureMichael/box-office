@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { apiGet } from '../../api/tv-maze-api';
-import ActorGrid from '../entities/actor/ActorGrid';
-import ShowGrid from '../entities/show/ShowGrid';
+import ActorGrid from '../layouts/actor/ActorGrid';
+import ShowGrid from '../layouts/show/ShowGrid';
 import MainPageLayout from '../layouts/MainPageLayout';
 
 const Home = () => {
