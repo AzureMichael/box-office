@@ -1,8 +1,10 @@
 import React from 'react';
+import { StyledActorCard } from '../../../styled-components/StyledActorCard';
+
 
 const ActorCard = ({image, name, gender, country, birthday, deathday}) => {
     return (
-        <div>
+        <StyledActorCard>
             <div>
                 <img src={image} alt="actor" />
             </div>
@@ -16,7 +18,7 @@ const ActorCard = ({image, name, gender, country, birthday, deathday}) => {
             <p>
                 {deathday ? `Died ${deathday}` : 'Alive'}
             </p>
-        </div>
+        </StyledActorCard>
     );
 }
  

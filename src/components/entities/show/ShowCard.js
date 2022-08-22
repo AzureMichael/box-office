@@ -1,5 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import { SearchCard } from '../../../styled-components/styled-components';
+import { StyledShowCard } from '../../../styled-components/StyledShowCard';
 
 const ShowCard = ({id, image, name, summary}) => {
 
@@ -10,8 +12,8 @@ const ShowCard = ({id, image, name, summary}) => {
         : 'No description';
 
     return ( 
-        <div>
-            <div>
+        <StyledShowCard>
+            <div className='image-wrapper'>
                 <img src={image} alt="show" />
             </div>
 
@@ -23,7 +25,7 @@ const ShowCard = ({id, image, name, summary}) => {
                 <Link to={`/show/${id}`}>Read more</Link>
                 <button type='button'>Star me</button>
             </div>
-        </div> 
+        </StyledShowCard> 
     );
 }
  
