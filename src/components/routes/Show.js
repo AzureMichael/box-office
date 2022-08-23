@@ -78,7 +78,6 @@ const Show = () => {
             </div>
         );
     }
-    debugger;
     return ( 
         <div>
             { show && 
@@ -94,18 +93,19 @@ const Show = () => {
                         <h2>Details</h2>
                         <Details status={show.status} network={show.network} premiered={show.premiered} />
                     </InfoBlock>
-                    { show._embedded.seasons &&
-                        <InfoBlock>
-                            <h2>Seasons</h2>
+                   
+                    <InfoBlock>
+                        <h2>Seasons</h2>
+                        { show._embedded.seasons &&
                             <Seasons seasons={show._embedded.seasons} />
-                        </InfoBlock>                
-                    }
-                    { show._embedded.cast && 
-                        <InfoBlock>
-                            <h2>Cast</h2>
-                            <Cast cast={show._embedded.cast} />
-                        </InfoBlock>
-                    }
+                        }
+                    </InfoBlock>                
+                    <InfoBlock>
+                        <h2>Cast</h2>
+                        { show._embedded.cast && 
+                                <Cast cast={show._embedded.cast} />
+                        }
+                    </InfoBlock>
                 </div>    
             }
         </div>

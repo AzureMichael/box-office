@@ -15,7 +15,7 @@ const Seasons = ({ seasons }) => {
         </p>
         <SeasonList>
           {seasons.map(season => (
-            <div key={season.id}>
+            <div key={season.id} className='season-item'>
               <div className='left'>
                 <p>Season {season.number}</p>
                 <p>
