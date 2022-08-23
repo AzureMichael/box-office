@@ -1,17 +1,17 @@
-import React from 'react';
-import { DetailsWrapper } from '../../styled-components/Details.styled';
+import React from "react";
+import { DetailsWrapper } from "../../styled-components/Details.styled";
 
-const Details = ({status, premiered, network}) => {
-    return ( 
+const Details = ({ status, premiered, network }) => {
+  return (
     <DetailsWrapper>
-        <p>
-          Status: <span>{status}</span>
-        </p>
-        <p>
-          Premiered {premiered} {network ? `on ${network.name}` : null}
-        </p>
+      <p>
+        Status: <span>{status}</span>
+      </p>
+      <p>
+        Premiered {premiered} {network ? `on ${network.name}` : null}
+      </p>
     </DetailsWrapper>
-    );
-}
- 
+  );
+};
+
 export default Details;

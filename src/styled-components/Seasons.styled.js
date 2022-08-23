@@ -22,8 +22,7 @@ export const SeasonList = styled.div`
     &:last-child {
       margin-bottom: 0;
     }
-
-    .left {
+    F .left {
       flex: 0 0 30%;
       border-right: 1px solid #b0b0b0;
       padding-right: 20px;

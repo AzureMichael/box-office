@@ -30,7 +30,7 @@ export const CastList = styled.div`
 
   .actor {
     margin-left: 25px;
-    
+
     .bold {
       font-weight: bold;
     }

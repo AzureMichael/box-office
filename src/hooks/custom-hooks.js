@@ -1,111 +1,101 @@
 import { useReducer, useEffect, useState } from "react";
-import {apiGet} from '../api/tv-maze-api';
+import { apiGet } from "../api/tv-maze-api";
 
-function showsReducer (prevState, action){
-    switch(action.type) {
-        case 'ADD': {
-            return [...prevState, action.showId]
-        }
-
-        case 'REMOVE': {
-            return prevState.filter(showId => showId !== action.showId);
-        }
-
-        default:
-            return prevState;
+function showsReducer(prevState, action) {
+  switch (action.type) {
+    case "ADD": {
+      return [...prevState, action.showId];
     }
+
+    case "REMOVE": {
+      return prevState.filter((showId) => showId !== action.showId);
+    }
+
+    default:
+      return prevState;
+  }
 }
 
 function usePersistedReducer(reducer, initialState, key) {
-    
-    
-    const [state, dispatch] = useReducer(reducer, initialState, (initial) => {
-        const persisted = localStorage.getItem(key);
+  const [state, dispatch] = useReducer(reducer, initialState, (initial) => {
+    const persisted = localStorage.getItem(key);
 
-        return persisted ? JSON.parse(persisted) : initial;
-    });
+    return persisted ? JSON.parse(persisted) : initial;
+  });
 
-    useEffect(()=> {
-        localStorage.setItem(key, JSON.stringify(state));
-    }, [state, key])
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(state));
+  }, [state, key]);
 
-    return [state, dispatch];
+  return [state, dispatch];
 }
 
-export function useShows(key = 'shows') {
-    return usePersistedReducer(showsReducer, [], key);
+export function useShows(key = "shows") {
+  return usePersistedReducer(showsReducer, [], key);
 }
 
-export function useLastQuery (key = 'lastQuery') {
-    const [input, setInput] = useState(() => {
-        const persisted = sessionStorage.getItem(key);
+export function useLastQuery(key = "lastQuery") {
+  const [input, setInput] = useState(() => {
+    const persisted = sessionStorage.getItem(key);
 
-        return persisted ? JSON.parse(persisted) : '';
-    });
+    return persisted ? JSON.parse(persisted) : "";
+  });
 
-    const setPersistedInput = (newState) => {
-        setInput(newState);
-        sessionStorage.setItem(key, JSON.stringify(newState));
-    }
+  const setPersistedInput = (newState) => {
+    setInput(newState);
+    sessionStorage.setItem(key, JSON.stringify(newState));
+  };
 
-    return [input, setPersistedInput];
+  return [input, setPersistedInput];
 }
 
 const reducer = (prevState, action) => {
-    switch(action.type){
-
-        case 'FETCH_SUCCESS': {
-            return {...prevState, isLoading: false, show: action.show}
-        }
-        
-        case 'FETCH_FAILED': {
-            return {...prevState, isLoading:false, error: action.error}
-        }
-
-        default: return prevState
+  switch (action.type) {
+    case "FETCH_SUCCESS": {
+      return { ...prevState, isLoading: false, show: action.show };
     }
 
-} 
+    case "FETCH_FAILED": {
+      return { ...prevState, isLoading: false, error: action.error };
+    }
 
+    default:
+      return prevState;
+  }
+};
 
 export function useShow(showId) {
-    
-    const [state, dispatch] = 
-    useReducer(
-        reducer, 
-        {
-            show: null,
-            isLoading: true,
-            error: null,
+  const [state, dispatch] = useReducer(reducer, {
+    show: null,
+    isLoading: true,
+    error: null,
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+
+    apiGet(`/shows/${showId}?embed[]=seasons&embed[]=cast`)
+      .then((result) => {
+        if (isMounted) {
+          dispatch({
+            type: "FETCH_SUCCESS",
+            show: result,
+          });
         }
-    );
-
-    useEffect( () => {
-
-        let isMounted = true;
-
-        apiGet(`/shows/${showId}?embed[]=seasons&embed[]=cast`)
-            .then(result => {
-                if(isMounted){
-                    dispatch({
-                        type: 'FETCH_SUCCESS',
-                        show: result
-                    })
-                }
-            })
-            .catch(error => {
-                if(isMounted){
-                    dispatch({
-                        type: 'FETCH_FAILED',
-                        error: error.message,
-                    })
-                }
-            });
-
-        return () =>{
-            isMounted = false;
+      })
+      .catch((error) => {
+        if (isMounted) {
+          dispatch({
+            type: "FETCH_FAILED",
+            error: error.message,
+          });
         }
-    }, [showId] );
+      });
 
-    return state;
+    return () => {
+      isMounted = false;
+    };
+  }, [showId]);
+
+  return state;
 }
