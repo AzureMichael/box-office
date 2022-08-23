@@ -4,9 +4,10 @@ import { apiGet } from '../../api/tv-maze-api';
 import ActorGrid from '../layouts/actor/ActorGrid';
 import ShowGrid from '../layouts/show/ShowGrid';
 import MainPageLayout from '../layouts/MainPageLayout';
+import { useLastQuery } from '../../hooks/custom-hooks';
 
 const Home = () => {
-    const [input, setInput] = useState('');
+    const [input, setInput] = useLastQuery('');
     const [results, setResults] = useState(null);
     const [searchOption, setSearchOption] = useState('shows');
 

@@ -1,6 +1,7 @@
 import React, {useEffect, useReducer} from 'react';
 import {useParams} from 'react-router-dom'
 import { apiGet } from '../../api/tv-maze-api';
+import { useShow } from '../../hooks/custom-hooks';
 import { InfoBlock } from '../../styled-components/Show.styled';
 import Cast from '../show/Cast';
 import Details from '../show/Details';
@@ -9,59 +10,9 @@ import ShowMainData from '../show/ShowMainData';
 
 const Show = () => {
 
-    const initialState = {
-        show: null,
-        isLoading: true,
-        error: null,
-    }
-
-    const reducer = (prevState, action) => {
-        switch(action.type){
-
-            case 'FETCH_SUCCESS': {
-                return {...prevState, isLoading: false, show: action.show}
-            }
-            
-            case 'FETCH_FAILED': {
-                return {...prevState, isLoading:false, error: action.error}
-            }
-
-            default: return prevState
-        }
-
-    } 
-
-    const [{error, isLoading, show}, dispatch] = useReducer(reducer, initialState);
-
     const { id } = useParams();
 
-
-    useEffect( () => {
-
-        let isMounted = true;
-
-        apiGet(`/shows/${id}?embed[]=seasons&embed[]=cast`)
-            .then(result => {
-                if(isMounted){
-                    dispatch({
-                        type: 'FETCH_SUCCESS',
-                        show: result
-                    })
-                }
-            })
-            .catch(error => {
-                if(isMounted){
-                    dispatch({
-                        type: 'FETCH_FAILED',
-                        error: error.message,
-                    })
-                }
-            });
-
-        return () =>{
-            isMounted = false;
-        }
-    }, [id] );
+    const {show, isLoading, error} = useShow(id);
 
     if(isLoading) {
         return (
