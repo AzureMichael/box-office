@@ -1,6 +1,10 @@
 import React, {useEffect, useReducer} from 'react';
 import {useParams} from 'react-router-dom'
 import { apiGet } from '../../api/tv-maze-api';
+import Cast from '../show/Cast';
+import Details from '../show/Details';
+import Seasons from '../show/Seasons';
+import ShowMainData from '../show/ShowMainData';
 
 const Show = () => {
 
@@ -73,10 +77,36 @@ const Show = () => {
             </div>
         );
     }
-
+    debugger;
     return ( 
         <div>
-            this is show page
+            { show && 
+                <div>
+                    <ShowMainData 
+                        image={show.image} 
+                        name={show.name} 
+                        rating={show.rating} 
+                        summary={show.summary} 
+                        tags={show.genres} 
+                    />
+                    <div>
+                        <h2>Details</h2>
+                        <Details status={show.status} network={show.network} premiered={show.premiered} />
+                    </div>
+                    { show._embedded.seasons &&
+                        <div>
+                            <h2>Seasons</h2>
+                            <Seasons seasons={show._embedded.seasons} />
+                        </div>                
+                    }
+                    { show._embedded.cast && 
+                        <div>
+                            <h2>Cast</h2>
+                            <Cast cast={show._embedded.cast} />
+                        </div>
+                    }
+                </div>    
+            }
         </div>
      );
 }
