@@ -1,6 +1,7 @@
 import React, {useEffect, useReducer} from 'react';
 import {useParams} from 'react-router-dom'
 import { apiGet } from '../../api/tv-maze-api';
+import { InfoBlock } from '../../styled-components/Show.styled';
 import Cast from '../show/Cast';
 import Details from '../show/Details';
 import Seasons from '../show/Seasons';
@@ -89,21 +90,21 @@ const Show = () => {
                         summary={show.summary} 
                         tags={show.genres} 
                     />
-                    <div>
+                    <InfoBlock>
                         <h2>Details</h2>
                         <Details status={show.status} network={show.network} premiered={show.premiered} />
-                    </div>
+                    </InfoBlock>
                     { show._embedded.seasons &&
-                        <div>
+                        <InfoBlock>
                             <h2>Seasons</h2>
                             <Seasons seasons={show._embedded.seasons} />
-                        </div>                
+                        </InfoBlock>                
                     }
                     { show._embedded.cast && 
-                        <div>
+                        <InfoBlock>
                             <h2>Cast</h2>
                             <Cast cast={show._embedded.cast} />
-                        </div>
+                        </InfoBlock>
                     }
                 </div>    
             }
