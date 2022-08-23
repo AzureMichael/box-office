@@ -1,9 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import { SearchCard } from '../../../styled-components/styled-components';
+import { Star } from '../../../styled-components/styled-components';
 import { StyledShowCard } from '../../../styled-components/StyledShowCard';
 
-const ShowCard = ({id, image, name, summary}) => {
+const ShowCard = ({id, image, name, summary, onStarClick, isStarred}) => {
 
     const summaryAsText = summary 
         ? `${summary.split(' ').slice(0, 10).join(' ').replace(/<.+?>/g, '')}...`
@@ -11,7 +11,7 @@ const ShowCard = ({id, image, name, summary}) => {
 
     return ( 
         <StyledShowCard>
-            <div className='image-wrapper'>
+            <div className='img-wrapper'>
                 <img src={image} alt="show" />
             </div>
 
@@ -19,9 +19,9 @@ const ShowCard = ({id, image, name, summary}) => {
 
             <p>{summaryAsText}</p>
 
-            <div>
+            <div className='btns'>
                 <Link to={`/show/${id}`}>Read more</Link>
-                <button type='button'>Star me</button>
+                <button type='button' onClick={onStarClick}><Star active={isStarred} /></button>
             </div>
         </StyledShowCard> 
     );
