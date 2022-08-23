@@ -80,8 +80,6 @@ export function useShow(showId) {
         }
     );
 
-
-
     useEffect( () => {
 
         let isMounted = true;
