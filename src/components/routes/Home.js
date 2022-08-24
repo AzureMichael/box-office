@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useState } from "react";
 import { apiGet } from "../../api/tv-maze-api";
 import ActorGrid from "../layouts/actor/ActorGrid";
@@ -8,6 +8,21 @@ import { useLastQuery } from "../../hooks/custom-hooks";
 import { RadioInputsWrapper, SearchButtonWrapper, SearchInput } from "../../styled-components/Home.styled";
 import CustomRadio from "../CustomRadio";
 
+const renderResults = (results) => {
+  if (results && results.length === 0) {
+    return <div>No results</div>;
+  }
+
+  if (results && results.length > 0) {
+    return results[0].show ? (
+      <ShowGrid data={results} />
+    ) : (
+      <ActorGrid data={results} />
+    );
+  }
+};
+
+
 const Home = () => {
   const [input, setInput] = useLastQuery("");
   const [results, setResults] = useState(null);
@@ -15,9 +30,12 @@ const Home = () => {
 
   const isShowsSearch = searchOption === "shows";
 
-  const onInputChange = (event) => {
+
+  const onInputChange = useCallback((event) => {
     setInput(event.target.value);
-  };
+    },
+    [setInput]
+  );
 
   const onSearch = () => {
     apiGet(`/search/${searchOption}?q=${input}`).then((results) =>
@@ -31,23 +49,9 @@ const Home = () => {
     }
   };
 
-  const renderResults = () => {
-    if (results && results.length === 0) {
-      return <div>No results</div>;
-    }
-
-    if (results && results.length > 0) {
-      return results[0].show ? (
-        <ShowGrid data={results} />
-      ) : (
-        <ActorGrid data={results} />
-      );
-    }
-  };
-
-  const onRadioChange = (event) => {
+  const onRadioChange = useCallback((event) => {
     setSearchOption(event.target.value);
-  };
+  }, []);
 
   return (
     <MainPageLayout>
@@ -85,7 +89,7 @@ const Home = () => {
           Search
         </button>
       </SearchButtonWrapper>
-      {renderResults()}
+      {renderResults(results)}
     </MainPageLayout>
   );
 };
