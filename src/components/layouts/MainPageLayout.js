@@ -1,6 +1,6 @@
 import React from "react";
 import Navs from "../Navs";
-import Title from "../title";
+import Title from "../Title";
 
 const MainPageLayout = ({ children }) => {
   return (
